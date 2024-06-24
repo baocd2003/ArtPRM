@@ -461,11 +461,11 @@ public class DbHelper {
         putString(key, gson.toJson(obj));
     }
 
-    public void putListObject(String key, ArrayList<Foods> playerList){
+    public void putListObject(String key, ArrayList<Art> playerList){
         checkForNullKey(key);
         Gson gson = new Gson();
         ArrayList<String> objStrings = new ArrayList<String>();
-        for(Foods player: playerList){
+        for(Art player: playerList){
             objStrings.add(gson.toJson(player));
         }
         putListString(key, objStrings);

@@ -1,6 +1,8 @@
 package com.example.artshopprm.Entity;
 
-public class Art {
+import java.io.Serializable;
+
+public class Art implements Serializable {
     private String id;
     private String artName;
     private int rate;

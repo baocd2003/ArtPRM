@@ -1,5 +1,6 @@
 package com.example.artshopprm.Adapter;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.artshopprm.DetailActivity;
 import com.example.artshopprm.Entity.Art;
 import com.example.artshopprm.R;
 import com.squareup.picasso.Picasso;
@@ -43,6 +45,11 @@ public class PopularArtAdapter extends RecyclerView.Adapter<PopularArtAdapter.Ar
 
         // Loading image using Picasso or any other image loading library
         Picasso.get().load(art.getImageUrl()).into(holder.imgArt); // Assuming you have an image URL in your Art class
+        holder.imgArt.setOnClickListener(v -> {
+            Intent intent=new Intent(context, DetailActivity.class);
+            intent.putExtra("object",artList.get(position));
+            context.startActivity(intent);
+        });
     }
 
     @Override
