@@ -44,10 +44,10 @@ public class PopularArtAdapter extends RecyclerView.Adapter<PopularArtAdapter.Ar
         holder.rateTxt.setText("5"); // Placeholder for rating
 
         // Loading image using Picasso or any other image loading library
-        Picasso.get().load(art.getImageUrl()).into(holder.imgArt); // Assuming you have an image URL in your Art class
+            Picasso.get().load(art.getImageUrl()).into(holder.imgArt); // Assuming you have an image URL in your Art class
         holder.imgArt.setOnClickListener(v -> {
             Intent intent=new Intent(context, DetailActivity.class);
-            intent.putExtra("object",artList.get(position));
+            intent.putExtra("art",artList.get(position));
             context.startActivity(intent);
         });
     }

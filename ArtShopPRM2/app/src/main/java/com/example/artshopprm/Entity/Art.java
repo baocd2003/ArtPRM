@@ -13,6 +13,15 @@ public class Art implements Serializable {
     private String categoryId;
     private String imageUrl;
     private boolean isActive;
+    private int numberInCart;
+
+    public int getNumberInCart() {
+        return numberInCart;
+    }
+
+    public void setNumberInCart(int numberInCart) {
+        this.numberInCart = numberInCart;
+    }
 
     public String getImageUrl() {
         return imageUrl;

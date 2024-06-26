@@ -1,4 +1,68 @@
 package com.example.artshopprm.Service;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import com.example.artshopprm.Entity.Art;
+
+import java.util.ArrayList;
+
 public class ManagementCart {
+    private Context context;
+    private DbHelper dbHelper;
+
+    public ManagementCart(Context context) {
+        this.context = context;
+        this.dbHelper=new DbHelper(context);
+    }
+
+    public void insertFood(Art item) {
+        ArrayList<Art> listpop = getListCart();
+        boolean existAlready = false;
+        int n = 0;
+        for (int i = 0; i < listpop.size(); i++) {
+            if (listpop.get(i).getArtName().equals(item.getArtName())) {
+                existAlready = true;
+                n = i;
+                break;
+            }
+        }
+        if(existAlready){
+            listpop.get(n).setNumberInCart(item.getNumberInCart());
+        }else{
+            listpop.add(item);
+        }
+        dbHelper.putListObject("CartList",listpop);
+        Toast.makeText(context, "Added to your Cart", Toast.LENGTH_SHORT).show();
+    }
+
+    public ArrayList<Art> getListCart() {
+        return dbHelper.getListObject("CartList");
+    }
+    public void emptyListCart() {
+        dbHelper.remove("CartList");
+    }
+
+    public Double getTotalFee(){
+        ArrayList<Art> listItem=getListCart();
+        double fee=0;
+        for (int i = 0; i < listItem.size(); i++) {
+            fee=fee+(listItem.get(i).getPrice()*listItem.get(i).getNumberInCart());
+        }
+        return fee;
+    }
+    public void minusNumberItem(ArrayList<Art> listItem,int position,ChangeNumberItemsListener changeNumberItemsListener){
+        if(listItem.get(position).getNumberInCart()==1){
+            listItem.remove(position);
+        }else{
+            listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart()-1);
+        }
+        dbHelper.putListObject("CartList",listItem);
+        changeNumberItemsListener.change();
+    }
+    public  void plusNumberItem(ArrayList<Art> listItem,int position,ChangeNumberItemsListener changeNumberItemsListener){
+        listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart()+1);
+        dbHelper.putListObject("CartList",listItem);
+        changeNumberItemsListener.change();
+    }
 }
