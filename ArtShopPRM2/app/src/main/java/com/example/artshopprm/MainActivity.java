@@ -1,6 +1,7 @@
 package com.example.artshopprm;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -42,6 +43,18 @@ public class MainActivity extends BaseActivity {
         artList = new ArrayList<>();
         getArts();
         mainAction();
+        checkAuthentication();
+    }
+    private void checkAuthentication() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", null);
+        String password = sharedPreferences.getString("password", null);
+
+        if (email == null || password == null) {
+            // If user data is not stored in SharedPreferences, navigate to LoginActivity
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish(); // Close MainActivity
+        }
     }
 
     private void getArts() {

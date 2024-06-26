@@ -31,11 +31,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         setVariable();
         MoveToSignUpScreen();
     }
+
+
 
     private void setVariable() {
         binding.buttonLogin.setOnClickListener(v -> {
@@ -45,11 +49,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void MoveToSignUpScreen(){
+    private void MoveToSignUpScreen() {
         binding.buttonSignUp.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignUp.class));
         });
     }
+
     private Task<ArrayList<Account>> GetDataFromFirebase() {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("accounts");
         TaskCompletionSource<ArrayList<Account>> taskCompletionSource = new TaskCompletionSource<>();
@@ -74,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
 
         return taskCompletionSource.getTask();
     }
-
 
     private void CheckLogin(String email, String password) {
         GetDataFromFirebase().addOnCompleteListener(task -> {
@@ -103,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("updateDate", userData.getUpdateDate());
                     editor.apply();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish(); // Close LoginActivity
                 } else {
                     Toast.makeText(LoginActivity.this, "Wrong Username or password", Toast.LENGTH_SHORT).show();
                 }
