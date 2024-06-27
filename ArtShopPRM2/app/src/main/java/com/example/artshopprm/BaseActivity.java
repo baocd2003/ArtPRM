@@ -14,7 +14,6 @@ public class BaseActivity extends AppCompatActivity {
     FirebaseDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         db = FirebaseDatabase.getInstance();
     }

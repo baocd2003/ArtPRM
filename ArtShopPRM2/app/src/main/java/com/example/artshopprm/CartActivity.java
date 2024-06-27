@@ -54,9 +54,7 @@ public class CartActivity extends  BaseActivity {
     }
 
     private void calculateCart() {
-
         double total = managementCart.getTotalFee();
-
         binding.totalTxt.setText("$" + total);
     }
 
@@ -68,9 +66,9 @@ public class CartActivity extends  BaseActivity {
         }
         String orderId = UUID.randomUUID().toString();
         Date now = new Date();
-
+        String address = binding.addressTxt.getText().toString();
         // Create an Order object
-        Order order = new Order(orderId, now, now, "BankName", "BankAccount", "DeliveryAddress", "AccountId", "Pending", true);
+        Order order = new Order(orderId, now, now, "BankName", "BankAccount", address, "AccountId", "Pending", true);
         DatabaseReference ordersRef = db.getReference("orders");
         DatabaseReference orderDetailsRef = db.getReference("orderDetails");
 
@@ -83,6 +81,7 @@ public class CartActivity extends  BaseActivity {
                 Toast.makeText(CartActivity.this, "Failed to place order", Toast.LENGTH_SHORT).show();
             }
         });
+        managementCart.emptyListCart();
     }
 
     private void saveOrderDetails(String orderId, List<Art> arts) {
