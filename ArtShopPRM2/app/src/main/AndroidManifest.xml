@@ -14,10 +14,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ArtShopPRM"
+        android:theme="@style/Theme.MyChat"
         tools:targetApi="31">
         <activity
             android:name=".MapActivity"
+            android:exported="true" />
+       <activity
+            android:name=".ChatActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ListUserActivity"
             android:exported="true" />
         <activity
             android:name=".CartActivity"
@@ -51,5 +57,4 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
     </application>
-
 </manifest>
