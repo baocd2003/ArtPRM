@@ -1,8 +1,10 @@
 package com.example.artshopprm;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 public class ChatActivity extends AppCompatActivity {
 
     ActivityChatBinding binding;
-    String recieverId;
+    String recieverId, senderId;
     DatabaseReference databaseReferenceSender, databaseReferenceReciever;
     String senderRoom, recieverRoom;
     MessageAdapter messageAdapter;
@@ -35,8 +36,12 @@ public class ChatActivity extends AppCompatActivity {
 
         recieverId = getIntent().getStringExtra("id");
 
-        senderRoom = FirebaseAuth.getInstance().getUid() + recieverId;
-        recieverRoom = recieverId + FirebaseAuth.getInstance().getUid();
+        //senderId
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        senderId = sharedPreferences.getString("id", null);
+
+        senderRoom = senderId + recieverId;
+        recieverRoom = recieverId + senderId;
 
         messageAdapter = new MessageAdapter(this);
         binding.recycler.setAdapter(messageAdapter);
@@ -59,6 +64,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
         binding.sendMessImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +72,17 @@ public class ChatActivity extends AppCompatActivity {
                 if (message.trim().length() > 0) {
                     sendMessages(message);
                 }
+            }
+        });
+
+        // Back button to navigate to ListUserActivity
+        ImageView backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatActivity.this, ListUserActivity.class);
+                startActivity(intent);
+                finish(); // Finish the current activity
             }
         });
     }
@@ -81,5 +98,4 @@ public class ChatActivity extends AppCompatActivity {
                 .child(messageId)
                 .setValue(messageModel);
     }
-
 }
