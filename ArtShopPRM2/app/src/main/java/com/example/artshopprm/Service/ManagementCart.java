@@ -61,8 +61,13 @@ public class ManagementCart {
         changeNumberItemsListener.change();
     }
     public  void plusNumberItem(ArrayList<Art> listItem,int position,ChangeNumberItemsListener changeNumberItemsListener){
-        listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart()+1);
-        dbHelper.putListObject("CartList",listItem);
-        changeNumberItemsListener.change();
+        if(listItem.get(position).getNumberInCart() > listItem.get(position).getStockQuantity()){
+            Toast.makeText(context, "Out of quantity", Toast.LENGTH_SHORT).show();
+        }else{
+            listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart()+1);
+            dbHelper.putListObject("CartList",listItem);
+            changeNumberItemsListener.change();
+        }
+
     }
 }
