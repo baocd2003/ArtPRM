@@ -19,13 +19,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 public class ChatActivity extends AppCompatActivity {
 
     ActivityChatBinding binding;
-    String recieverId, senderId;
-    DatabaseReference databaseReferenceSender, databaseReferenceReciever;
-    String senderRoom, recieverRoom;
+    String receiverId, senderId;
+    DatabaseReference databaseReferenceSender, databaseReferenceReceiver;
+    String senderRoom, receiverRoom;
     MessageAdapter messageAdapter;
 
     @Override
@@ -34,21 +33,23 @@ public class ChatActivity extends AppCompatActivity {
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        recieverId = getIntent().getStringExtra("id");
+        receiverId = getIntent().getStringExtra("id");
 
-        //senderId
+        // Retrieve senderId from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         senderId = sharedPreferences.getString("id", null);
 
-        senderRoom = senderId + recieverId;
-        recieverRoom = recieverId + senderId;
+        senderRoom = senderId + receiverId;
+        receiverRoom = receiverId + senderId;
 
-        messageAdapter = new MessageAdapter(this);
+        // Initialize MessageAdapter with senderId
+        messageAdapter = new MessageAdapter(this, senderId);
         binding.recycler.setAdapter(messageAdapter);
         binding.recycler.setLayoutManager(new LinearLayoutManager(this));
 
         databaseReferenceSender = FirebaseDatabase.getInstance().getReference("chats").child(senderRoom);
-        databaseReferenceReciever = FirebaseDatabase.getInstance().getReference("chats").child(recieverRoom);
+        databaseReferenceReceiver = FirebaseDatabase.getInstance().getReference("chats").child(receiverRoom);
+
         databaseReferenceSender.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -61,15 +62,15 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle error
             }
         });
 
         binding.sendMessImgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = binding.messageEd.getText().toString();
-                if (message.trim().length() > 0) {
+                String message = binding.messageEd.getText().toString().trim();
+                if (!message.isEmpty()) {
                     sendMessages(message);
                 }
             }
@@ -89,13 +90,13 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessages(String message) {
         String messageId = databaseReferenceSender.push().getKey(); // Generate unique key
-        MessageModel messageModel = new MessageModel(messageId, FirebaseAuth.getInstance().getUid(), message);
-        messageAdapter.add(messageModel);
-        databaseReferenceSender
-                .child(messageId)
-                .setValue(messageModel);
-        databaseReferenceReciever
-                .child(messageId)
-                .setValue(messageModel);
+        MessageModel messageModel = new MessageModel(messageId, senderId, message);
+
+        // Save message in sender's and receiver's chat rooms
+        databaseReferenceSender.child(messageId).setValue(messageModel);
+        databaseReferenceReceiver.child(messageId).setValue(messageModel);
+
+        // Clear input field after sending message
+        binding.messageEd.setText("");
     }
 }
