@@ -1,4 +1,5 @@
 package com.example.artshopprm.Adapter;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,15 +15,35 @@ import com.example.artshopprm.Entity.Art;
 import com.example.artshopprm.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
+
 public class PopularArtAdapter extends RecyclerView.Adapter<PopularArtAdapter.ArtViewHolder> {
 
     private Context context;
     private List<Art> artList;
+    private List<Art> filteredArtList; // List to hold filtered arts
 
     public PopularArtAdapter(Context context, List<Art> artList) {
         this.context = context;
         this.artList = artList;
+        this.filteredArtList = new ArrayList<>(artList); // Initialize with full list
+    }
+
+    // Method to filter the list based on search query
+    public void filter(String query) {
+        filteredArtList.clear();
+        if (query.isEmpty()) {
+            filteredArtList.addAll(artList); // If query is empty, show all items
+        } else {
+            query = query.toLowerCase().trim();
+            for (Art art : artList) {
+                if (art.getArtName().toLowerCase().contains(query)) {
+                    filteredArtList.add(art); // Add item if its name contains the query
+                }
+            }
+        }
+        notifyDataSetChanged(); // Notify adapter of data change
     }
 
     @NonNull
@@ -34,37 +55,37 @@ public class PopularArtAdapter extends RecyclerView.Adapter<PopularArtAdapter.Ar
 
     @Override
     public void onBindViewHolder(@NonNull ArtViewHolder holder, int position) {
-        Art art = artList.get(position);
+        Art art = filteredArtList.get(position); // Use filtered list for binding
         holder.titleTxt.setText(art.getArtName());
         holder.descriptionTxt.setText(art.getDescription());
         holder.priceTxt.setText("$" + art.getPrice());
 
-        // Assuming you have a rating field in your Art class
-        // holder.rateTxt.setText(String.valueOf(art.getRating()));
-        holder.rateTxt.setText("5"); // Placeholder for rating
+        // Placeholder for rating (assuming you have a rating field in your Art class)
+        holder.rateTxt.setText("5");
 
-        // Loading image using Picasso or any other image loading library
-            Picasso.get().load(art.getImageUrl()).into(holder.imgArt); // Assuming you have an image URL in your Art class
-        holder.imgArt.setOnClickListener(v -> {
-            Intent intent=new Intent(context, DetailActivity.class);
-            intent.putExtra("art",artList.get(position));
+        // Load image using Picasso or any other image loading library
+        Picasso.get().load(art.getImageUrl()).into(holder.imgArt);
+
+        // Handle item click to open detail activity
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra("art", art);
             context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return artList.size();
+        return filteredArtList.size(); // Return size of filtered list
     }
 
     public static class ArtViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgArt, imageView10;
+        ImageView imgArt;
         TextView titleTxt, descriptionTxt, priceTxt, rateTxt;
 
         public ArtViewHolder(@NonNull View itemView) {
             super(itemView);
             imgArt = itemView.findViewById(R.id.imgArt);
-            imageView10 = itemView.findViewById(R.id.imageView10);
             titleTxt = itemView.findViewById(R.id.titleTxt);
             descriptionTxt = itemView.findViewById(R.id.descriptionTxt);
             priceTxt = itemView.findViewById(R.id.priceTxt);
