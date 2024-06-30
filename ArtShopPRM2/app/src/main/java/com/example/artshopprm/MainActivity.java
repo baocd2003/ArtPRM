@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +59,23 @@ public class MainActivity extends BaseActivity {
         getArts();
         mainAction();
         checkAuthentication();
+        // Listen for Enter key press
+        EditText editText = findViewById(R.id.editTextText);
+        editText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE ||
+                    event.getAction() == KeyEvent.ACTION_DOWN &&
+                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+
+                String searchTerm = editText.getText().toString().trim();
+                if (!searchTerm.isEmpty()) {
+                    Intent intent = new Intent(MainActivity.this, SearchResultActivity.class);
+                    intent.putExtra("SEARCH_TERM", searchTerm);
+                    startActivity(intent);
+                    return true;
+                }
+            }
+            return false;
+        });
     }
     private void checkAuthentication() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
