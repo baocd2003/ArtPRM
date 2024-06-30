@@ -62,7 +62,6 @@ public class OrderPayment extends BaseActivity {
         ZaloPaySDK.init(2553, Environment.SANDBOX);
 
         Intent intent = getIntent();
-        txtSoluong.setText(intent.getStringExtra("soluong"));
         Double total = intent.getDoubleExtra("total", (double) 0);
         String totalString = String.format("%.0f", total);
         txtTongTien.setText(Double.toString(total));

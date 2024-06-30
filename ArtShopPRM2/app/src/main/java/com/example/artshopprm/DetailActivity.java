@@ -1,6 +1,7 @@
 package com.example.artshopprm;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,9 +47,13 @@ public class DetailActivity extends BaseActivity {
 
     private void actionCart(){
         binding.plusBtn.setOnClickListener(v -> {
-            num = num + 1;
-            binding.numTxt.setText(num + " ");
-            binding.totalTxt.setText("$" + (num * art.getPrice()));
+            if(num >= art.getStockQuantity()){
+                Toast.makeText(this, "Out of stock", Toast.LENGTH_SHORT).show();
+            }else{
+                num = num + 1;
+                binding.numTxt.setText(num + " ");
+                binding.totalTxt.setText("$" + (num * art.getPrice()));
+            }
         });
 
         binding.minusBtn.setOnClickListener(v -> {

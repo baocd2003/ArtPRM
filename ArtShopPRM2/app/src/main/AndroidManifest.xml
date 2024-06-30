@@ -39,8 +39,9 @@
             android:name=".ZaloPayment"
            android:exported="true"/>
         <activity
-            android:name=".SearchResultActivity"/>
-            android:exported="true" />
+            android:name=".SearchResultActivity"
+            android:exported="true"/>
+
         <activity
             android:name=".MapActivity"
             android:exported="true" />
@@ -52,7 +53,8 @@
             android:exported="true" />
         <activity
             android:name=".CartActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.MyChat.NoActionBar"/>
         <activity
             android:name=".LoginActivity"
             android:exported="true" >

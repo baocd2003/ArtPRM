@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class SearchResultActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         artList = new ArrayList<>();
 
         // Retrieve search term from Intent
@@ -59,13 +60,15 @@ public class SearchResultActivity extends AppCompatActivity {
         // Query to filter arts based on search term
         Query searchQuery = dbRef.orderByChild("artName").startAt(searchTerm).endAt(searchTerm + "\uf8ff");
 
-        searchQuery.addValueEventListener(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 artList.clear();
                 for (DataSnapshot artSnapshot : dataSnapshot.getChildren()) {
                     Art art = artSnapshot.getValue(Art.class);
-                    artList.add(art);
+                    if (art != null && art.getStockQuantity() > 0 && art.getArtName().toLowerCase().contains(searchTerm.toLowerCase())) {
+                        artList.add(art);
+                    }
                 }
                 // Update RecyclerView with filtered data using PopularArtAdapter
                 popularArtAdapter = new PopularArtAdapter(SearchResultActivity.this, artList);

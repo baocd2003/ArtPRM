@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.artshopprm.Adapter.CartAdapter;
 import com.example.artshopprm.Api.CreateOrder;
+import com.example.artshopprm.Entity.Account;
 import com.example.artshopprm.Entity.Art;
 import com.example.artshopprm.Entity.Order;
 import com.example.artshopprm.Entity.OrderDetail;
@@ -22,8 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import vn.zalopay.sdk.Environment;
@@ -115,9 +118,13 @@ public class CartActivity extends  BaseActivity {
 //
 //        String orderId = UUID.randomUUID().toString();
 //        Date now = new Date();
+//        Account acc = managementCart.getUserLogined("User");
 //        String address = binding.addressTxt.getText().toString();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+//        String currentTime = dateFormat.format(now);
+//        double total = getTotalOrderPrice();
 //        // Create an Order object
-//        Order order = new Order(orderId, now, now, "BankName", "BankAccount", address, "AccountId", "Pending", true);
+//        Order order = new Order(orderId, currentTime, currentTime, address, String.valueOf(acc.getId()), "Pending", true,total);
 //        DatabaseReference ordersRef = db.getReference("orders");
 //        DatabaseReference orderDetailsRef = db.getReference("orderDetails");
 //
@@ -141,61 +148,6 @@ public class CartActivity extends  BaseActivity {
 //            OrderDetail orderDetail = new OrderDetail(orderDetailId, new Date(), new Date(),
 //                    orderId, art.getId(), art.getNumberInCart(), actualPrice, true);
 //            orderDetailsRef.child(orderDetailId).setValue(orderDetail);
-//        }
-//    }
-//
-//    private void zaloPayment(String totalString) {
-//        CreateOrder orderApi = new CreateOrder();
-//        try {
-//            JSONObject data = orderApi.createOrder(totalString);
-//            String code = data.getString("return_code");
-//            if (code.equals("1")) {
-//                String token = data.getString("zp_trans_token");
-//                ZaloPaySDK.getInstance().payOrder(CartActivity.this, token, "demozpdk://app", new PayOrderListener() {
-//                    @Override
-//                    public void onPaymentSucceeded(String s, String s1, String s2) {
-//                        List<Art> arts = managementCart.getListCart();
-//                        Intent intent1 = new Intent(CartActivity.this, PaymentNotification.class);
-//                        intent1.putExtra("result", "Thanh toán thành công");
-//                        String orderId = UUID.randomUUID().toString();
-//                        Date now = new Date();
-//                        String address = binding.addressTxt.getText().toString();
-//                        // Create an Order object
-//                        Order order = new Order(orderId, now, now, "BankName", "BankAccount", address, "AccountId", "Pending", true);
-//                        DatabaseReference ordersRef = db.getReference("orders");
-//                        DatabaseReference orderDetailsRef = db.getReference("orderDetails");
-//
-//                        // Save order to Firebase
-//                        ordersRef.child(orderId).setValue(order).addOnCompleteListener(task -> {
-//                            if (task.isSuccessful()) {
-//                                Toast.makeText(CartActivity.this, "Order placed successfully", Toast.LENGTH_SHORT).show();
-//                                saveOrderDetails(orderId, arts);
-//                            } else {
-//                                Toast.makeText(CartActivity.this, "Failed to place order", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                        managementCart.emptyListCart();
-//                        startActivity(intent1);
-//                    }
-//
-//                    @Override
-//                    public void onPaymentCanceled(String s, String s1) {
-//                        Intent intent1 = new Intent(CartActivity.this, PaymentNotification.class);
-//                        intent1.putExtra("result", "Hủy thanh toán");
-//                        startActivity(intent1);
-//                    }
-//
-//                    @Override
-//                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-//                        Intent intent1 = new Intent(CartActivity.this, PaymentNotification.class);
-//                        intent1.putExtra("result", "Lỗi thanh toán");
-//                        startActivity(intent1);
-//                    }
-//                });
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
 //        }
 //    }
 

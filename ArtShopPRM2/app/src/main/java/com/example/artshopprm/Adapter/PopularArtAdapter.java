@@ -15,6 +15,7 @@ import com.example.artshopprm.Entity.Art;
 import com.example.artshopprm.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,10 @@ public class PopularArtAdapter extends RecyclerView.Adapter<PopularArtAdapter.Ar
         Art art = filteredArtList.get(position); // Use filtered list for binding
         holder.titleTxt.setText(art.getArtName());
         holder.descriptionTxt.setText(art.getDescription());
-        holder.priceTxt.setText("$" + art.getPrice());
+        // Format the price
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
+        holder.priceTxt.setText("VND " + numberFormat.format(art.getPrice()));
 
         holder.rateTxt.setText(String.valueOf(art.getRate()));// Placeholder for rating
 

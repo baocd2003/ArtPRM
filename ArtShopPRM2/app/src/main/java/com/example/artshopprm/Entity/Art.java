@@ -1,7 +1,10 @@
 package com.example.artshopprm.Entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Art implements Serializable {
     private String id;
@@ -18,6 +21,8 @@ public class Art implements Serializable {
 
     private String createdDate;
     private String updateDate;
+
+    private float negRate = -rate;
 
     public String getCreatedDate() {
         return createdDate;
@@ -123,5 +128,17 @@ public class Art implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    // Method to convert String createdDate to Date
+    public Date getCreatedDateAsDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure UTC time zone
+        try {
+            return dateFormat.parse(createdDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null; // Handle parsing exception as needed
+        }
     }
 }
