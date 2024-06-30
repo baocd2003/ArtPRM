@@ -4,28 +4,37 @@ import java.util.Date;
 
 public class Order {
     private String id;
-    private Date createdDate;
-    private Date updateDate;
-    private String bankName;
-    private String bankAccount;
+    private String createdDate;
+    private String updateDate;
+
     private String deliveryAddress;
     private String accountId;
     private String status;
     private boolean isActive;
 
+    private double totalPrice;
+
     public Order() {
 
     }
-    public Order(String id, Date createdDate, Date updateDate, String bankName, String bankAccount, String deliveryAddress, String accountId, String status, boolean isActive) {
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Order(String id, String createdDate, String updateDate, String deliveryAddress, String accountId, String status, boolean isActive, double totalPrice) {
         this.id = id;
         this.createdDate = createdDate;
         this.updateDate = updateDate;
-        this.bankName = bankName;
-        this.bankAccount = bankAccount;
         this.deliveryAddress = deliveryAddress;
         this.accountId = accountId;
         this.status = status;
         this.isActive = isActive;
+        this.totalPrice = totalPrice;
     }
 
     public String getId() {
@@ -36,42 +45,25 @@ public class Order {
         this.id = id;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getUpdateDate() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public String getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
     }
 
     public String getDeliveryAddress() {
         return deliveryAddress;
     }
-
     public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
     }

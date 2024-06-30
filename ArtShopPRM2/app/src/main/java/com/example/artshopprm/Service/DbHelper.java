@@ -1,4 +1,5 @@
 package com.example.artshopprm.Service;
+import com.example.artshopprm.Entity.Account;
 import com.google.gson.*;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -312,6 +313,12 @@ public class DbHelper {
         return playerList;
     }
 
+    public Account getAccountLogin(String key) {
+        Gson gson = new Gson();
+        String jsonString = getString(key);
+        return gson.fromJson(jsonString, Account.class);
+    }
+
 
 
     public <T> T getObject(String key, Class<T> classOfT){
@@ -469,6 +476,13 @@ public class DbHelper {
             objStrings.add(gson.toJson(player));
         }
         putListString(key, objStrings);
+    }
+
+    public void putUserData(String key, Account acc){
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(acc);
+        putString(key, jsonString);
     }
 
     /**

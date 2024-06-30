@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,9 +16,31 @@
         android:theme="@style/Theme.MyChat"
         tools:targetApi="31">
         <activity
+            android:name=".PaymentNotification"
+            android:exported="true" />
+        <activity
+            android:name=".OrderPayment"
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ZaloPayment"
+            android:exported="true" />
+        <activity
             android:name=".MapActivity"
             android:exported="true" />
-       <activity
+        <activity
             android:name=".ChatActivity"
             android:exported="true" />
         <activity
@@ -30,26 +51,29 @@
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SignUp"
             android:exported="true" />
         <activity
             android:name=".DetailActivity"
-            android:exported="false" />
+            android:theme="@style/Theme.MyChat.NoActionBar"
+            android:exported="true" />
         <activity
             android:name=".BaseActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyADsjFXMaM6MxxrEiM4h3EP6o-f1OPqJOc" />
@@ -57,4 +81,5 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
     </application>
+
 </manifest>

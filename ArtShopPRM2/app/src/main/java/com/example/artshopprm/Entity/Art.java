@@ -1,11 +1,12 @@
 package com.example.artshopprm.Entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Art implements Serializable {
     private String id;
     private String artName;
-    private int rate;
+    private float rate;
     private String author;
     private String description;
     private long price;
@@ -14,6 +15,25 @@ public class Art implements Serializable {
     private String imageUrl;
     private boolean isActive;
     private int numberInCart;
+
+    private String createdDate;
+    private String updateDate;
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
 
     public int getNumberInCart() {
         return numberInCart;
@@ -42,7 +62,7 @@ public class Art implements Serializable {
         this.id = id;
     }
 
-    public int getRate() {
+    public float getRate() {
         return rate;
     }
 

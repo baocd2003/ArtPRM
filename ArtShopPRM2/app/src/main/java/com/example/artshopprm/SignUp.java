@@ -95,6 +95,7 @@ public class SignUp extends AppCompatActivity {
                         // Optionally, navigate to the main activity or perform other actions after successful signup
                     }
                 })
+
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {

@@ -16,5 +16,4 @@
             android:layout_height="match_parent"
             map:backgroundColor="#fff0b2dd" />
     </androidx.wear.widget.SwipeDismissFrameLayout>
-    <!-- [END maps_wear_os_swipedismissframelayout] -->
 </FrameLayout>
