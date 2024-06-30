@@ -32,11 +32,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
     private RecyclerView recyclerViewPopular;
+    private RecyclerView recyclerViewNewest;
     private PopularArtAdapter popularArtAdapter;
     private List<Art> artList;
     @Override
@@ -46,8 +49,9 @@ public class MainActivity extends BaseActivity {
         setContentView(binding.getRoot());
 
         recyclerViewPopular = findViewById(R.id.recycleViewPopular);
+        recyclerViewNewest = findViewById(R.id.recycleViewNewest);
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this));
-
+        recyclerViewNewest.setLayoutManager(new LinearLayoutManager(this));
         artList = new ArrayList<>();
         ViewPager2 viewPager = findViewById(R.id.viewPager);
         BannerAdapter bannerAdapter = new BannerAdapter(Arrays.asList(
@@ -57,6 +61,7 @@ public class MainActivity extends BaseActivity {
         ));
         viewPager.setAdapter(bannerAdapter);
         getArts();
+        getNewestArts();
         mainAction();
         checkAuthentication();
         // Listen for Enter key press
@@ -92,22 +97,75 @@ public class MainActivity extends BaseActivity {
     private void getArts() {
         DatabaseReference dbRef = db.getReference("arts");
         binding.progressBarPopularArts.setVisibility(View.VISIBLE);
-        dbRef.orderByChild("rate").addValueEventListener(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 for (DataSnapshot artSnapshot : dataSnapshot.getChildren()) {
                     Art art = artSnapshot.getValue(Art.class);
-                    artList.add(art);
+                    if(art.getStockQuantity() > 0){
+                        artList.add(art);
+                    }
+
                     // Do something with the art object
                     Log.d("FirebaseData", "Art Name: " + art.getArtName());
                 }
                 binding.recycleViewPopular.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                // Sort artList by descending rate
+                Collections.sort(artList, new Comparator<Art>() {
+                    @Override
+                    public int compare(Art art1, Art art2) {
+                        // Sort in descending order of rate
+                        return Float.compare(art2.getRate(), art1.getRate());
+                    }
+                });
                 popularArtAdapter = new PopularArtAdapter(MainActivity.this, artList);
                 recyclerViewPopular.setAdapter(popularArtAdapter);
                 binding.progressBarPopularArts.setVisibility(View.GONE);
             }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("FirebaseData", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+    private void getNewestArts() {
+        DatabaseReference dbRef = db.getReference("arts");
+        binding.progressBarPopularArts.setVisibility(View.VISIBLE);
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Clear artList to avoid duplicates
+                artList.clear();
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for (DataSnapshot artSnapshot : dataSnapshot.getChildren()) {
+                    Art art = artSnapshot.getValue(Art.class);
+                    if(art.getStockQuantity() > 0){
+                        artList.add(art);
+                    }
+                    // Do something with the art object
+                    Log.d("FirebaseData", "Art Name: " + art.getArtName());
+                }
+                binding.recycleViewNewest.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                // Sort artList by descending rate
+                Collections.sort(artList, new Comparator<Art>() {
+                    @Override
+                    public int compare(Art art1, Art art2) {
+                        // Sort in descending order of rate
+                        return art2.getCreatedDateAsDate().compareTo(art1.getCreatedDateAsDate());
+                    }
+                });
+                popularArtAdapter = new PopularArtAdapter(MainActivity.this, artList);
+                recyclerViewNewest.setAdapter(popularArtAdapter);
+                binding.progressBarPopularArts.setVisibility(View.GONE);
+            }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
