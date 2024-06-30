@@ -3,6 +3,7 @@ package com.example.artshopprm.Service;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.example.artshopprm.Entity.Account;
 import com.example.artshopprm.Entity.Art;
 
 import java.util.ArrayList;
@@ -28,12 +29,20 @@ public class ManagementCart {
             }
         }
         if(existAlready){
-            listpop.get(n).setNumberInCart(item.getNumberInCart());
+            listpop.get(n).setNumberInCart(item.getNumberInCart()+1);
         }else{
             listpop.add(item);
         }
         dbHelper.putListObject("CartList",listpop);
         Toast.makeText(context, "Added to your Cart", Toast.LENGTH_SHORT).show();
+    }
+
+    public void setUserLogin(Account acc){
+        dbHelper.putUserData("User",acc);
+    }
+
+    public Account getUserLogined(String key){
+        return dbHelper.getAccountLogin("User");
     }
 
     public ArrayList<Art> getListCart() {
@@ -68,6 +77,5 @@ public class ManagementCart {
             dbHelper.putListObject("CartList",listItem);
             changeNumberItemsListener.change();
         }
-
     }
 }

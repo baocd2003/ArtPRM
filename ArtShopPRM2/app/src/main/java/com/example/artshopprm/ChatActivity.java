@@ -20,13 +20,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 public class ChatActivity extends AppCompatActivity {
-
     ActivityChatBinding binding;
     String receiverId, senderId;
     DatabaseReference databaseReferenceSender, databaseReferenceReceiver;
     String senderRoom, receiverRoom;
     MessageAdapter messageAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

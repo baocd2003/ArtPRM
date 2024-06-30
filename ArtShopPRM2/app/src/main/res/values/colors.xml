@@ -6,7 +6,8 @@
     <color name="blue_grey">#2E4058</color>
     <color name="grey">#F5F5F5</color>
     <!-- Primary brand colors -->
-    <color name="teal_700">#00796B</color>
+    <color name="teal_700">#1679AB</color>
     <!-- Secondary brand colors -->
     <color name="teal_200">#80CBC4</color>
+    <color name="pink">#FFB1B1</color>
 </resources>

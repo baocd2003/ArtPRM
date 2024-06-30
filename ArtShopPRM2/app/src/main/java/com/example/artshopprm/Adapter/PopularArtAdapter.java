@@ -60,8 +60,7 @@ public class PopularArtAdapter extends RecyclerView.Adapter<PopularArtAdapter.Ar
         holder.descriptionTxt.setText(art.getDescription());
         holder.priceTxt.setText("$" + art.getPrice());
 
-        // Placeholder for rating (assuming you have a rating field in your Art class)
-        holder.rateTxt.setText("5");
+        holder.rateTxt.setText(String.valueOf(art.getRate()));// Placeholder for rating
 
         // Load image using Picasso or any other image loading library
         Picasso.get().load(art.getImageUrl()).into(holder.imgArt);

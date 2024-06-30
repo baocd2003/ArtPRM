@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -17,7 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.artshopprm.Adapter.BannerAdapter;
 import com.example.artshopprm.Adapter.PopularArtAdapter;
 import com.example.artshopprm.Entity.Art;
 import com.example.artshopprm.databinding.ActivityMainBinding;
@@ -27,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
@@ -44,6 +49,13 @@ public class MainActivity extends BaseActivity {
         recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this));
 
         artList = new ArrayList<>();
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
+        BannerAdapter bannerAdapter = new BannerAdapter(Arrays.asList(
+                R.drawable.wallpaper_1,
+                R.drawable.wallpaper_2,
+                R.drawable.wallpaper_3
+        ));
+        viewPager.setAdapter(bannerAdapter);
         getArts();
         mainAction();
         checkAuthentication();
@@ -79,7 +91,8 @@ public class MainActivity extends BaseActivity {
 
     private void getArts() {
         DatabaseReference dbRef = db.getReference("arts");
-        dbRef.addValueEventListener(new ValueEventListener() {
+        binding.progressBarPopularArts.setVisibility(View.VISIBLE);
+        dbRef.orderByChild("rate").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -93,6 +106,7 @@ public class MainActivity extends BaseActivity {
                 binding.recycleViewPopular.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
                 popularArtAdapter = new PopularArtAdapter(MainActivity.this, artList);
                 recyclerViewPopular.setAdapter(popularArtAdapter);
+                binding.progressBarPopularArts.setVisibility(View.GONE);
             }
 
             @Override
@@ -106,5 +120,6 @@ public class MainActivity extends BaseActivity {
     private void mainAction(){
         binding.imageViewCart.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
         binding.imageViewChat.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ListUserActivity.class)));
+        binding.imageViewLocation.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapActivity.class)));
     }
 }

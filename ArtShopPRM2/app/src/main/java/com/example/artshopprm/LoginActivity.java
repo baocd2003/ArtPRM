@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.artshopprm.Entity.Account;
+import com.example.artshopprm.Service.ManagementCart;
 import com.example.artshopprm.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,14 +28,14 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
-
+    private ManagementCart managementCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        managementCart = new ManagementCart(this);
         setVariable();
         MoveToSignUpScreen();
     }
@@ -91,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                         isValidUser = true;
                         userData = user;
+                        managementCart.setUserLogin(userData);
                         break;
                     }
                 }

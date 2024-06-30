@@ -38,8 +38,9 @@ public class DetailActivity extends BaseActivity {
         binding.titleTxt.setText(art.getArtName());
         binding.descriptionTxt.setText(art.getDescription());
         binding.rateTxt.setText(art.getRate() + " Rating");
-        binding.ratingBar.setRating((float) art.getRate());
+        binding.ratingBar.setRating((float)art.getRate());
         binding.totalTxt.setText((num * art.getPrice())  + "$");
+        binding.stockTxt.setText(art.getStockQuantity() + "left");
         Picasso.get().load(art.getImageUrl()).into(binding.pic);
     }
 
