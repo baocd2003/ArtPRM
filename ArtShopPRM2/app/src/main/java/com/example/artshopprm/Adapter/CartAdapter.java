@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,15 +46,37 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
         holder.num.setText(list.get(position).getNumberInCart()+"");
         Picasso.get().load(list.get(position).getImageUrl()).into(holder.pic);
 
-        holder.plusItem.setOnClickListener(v -> managementCart.plusNumberItem(list, position, () -> {
-            notifyDataSetChanged();
-            changeNumberItemsListener.change();
-        }));
+        holder.plusItem.setOnClickListener(v -> {
+            int num = list.get(position).getNumberInCart();
+            if (num < list.get(position).getStockQuantity()) {
+                num++;
+                list.get(position).setNumberInCart(num);
+                holder.num.setText(String.valueOf(num));
+                holder.feeEachItem.setText("$" + (num * list.get(position).getPrice()));
+                holder.totalEachItem.setText(num + " * $" + list.get(position).getPrice());
+                managementCart.plusNumberItem(list, position, () -> {
+                    notifyDataSetChanged();
+                    changeNumberItemsListener.change();
+                });
+            } else {
+                Toast.makeText(holder.itemView.getContext(), "Out of stock", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        holder.minusItem.setOnClickListener(v -> managementCart.minusNumberItem(list, position, () -> {
-            notifyDataSetChanged();
-            changeNumberItemsListener.change();
-        }));
+        holder.minusItem.setOnClickListener(v -> {
+            int num = list.get(position).getNumberInCart();
+            if (num > 1) {
+                num--;
+                list.get(position).setNumberInCart(num);
+                holder.num.setText(String.valueOf(num));
+                holder.feeEachItem.setText("$" + (num * list.get(position).getPrice()));
+                holder.totalEachItem.setText(num + " * $" + list.get(position).getPrice());
+                managementCart.minusNumberItem(list, position, () -> {
+                    notifyDataSetChanged();
+                    changeNumberItemsListener.change();
+                });
+            }
+        });
     }
 
     @Override

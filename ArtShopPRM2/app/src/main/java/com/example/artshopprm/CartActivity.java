@@ -88,12 +88,13 @@ public class CartActivity extends  BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         binding.cardView.setLayoutManager(linearLayoutManager);
         binding.deliveryTxt.setText(String.valueOf(deliveryFee));
+        binding.totalFeeTxt.setText(String.valueOf(getTotalOrderPrice() + deliveryFee));
         adapter = new CartAdapter(managementCart.getListCart(), this, () -> calculateCart());
         binding.cardView.setAdapter(adapter);
     }
 
     private void calculateCart() {
-        double total = managementCart.getTotalFee();
+        double total = getTotalOrderPrice();
         binding.totalTxt.setText("$" + total);
     }
 
