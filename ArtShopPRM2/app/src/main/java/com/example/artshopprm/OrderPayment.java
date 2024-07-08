@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.StrictMode;
@@ -20,8 +21,11 @@ import com.example.artshopprm.Entity.Order;
 import com.example.artshopprm.Entity.OrderDetail;
 import com.example.artshopprm.Service.ManagementCart;
 import com.example.artshopprm.databinding.ActivityCartBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
@@ -132,6 +136,7 @@ public class OrderPayment extends BaseActivity {
         Order order = new Order(orderId, currentTime, currentTime, address, String.valueOf(acc.getId()), "Pending", true,total);
         DatabaseReference ordersRef = db.getReference("orders");
         DatabaseReference orderDetailsRef = db.getReference("orderDetails");
+
         // Save order to Firebase
         ordersRef.child(orderId).setValue(order).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -148,9 +153,11 @@ public class OrderPayment extends BaseActivity {
 
     private void saveOrderDetails(String orderId, List<Art> arts) {
         DatabaseReference orderDetailsRef = db.getReference("orderDetails");
+        DatabaseReference artsRef = db.getReference("arts");
         for (Art art : arts) {
             String orderDetailId = UUID.randomUUID().toString();
             double actualPrice = art.getNumberInCart() * art.getPrice();
+
             OrderDetail orderDetail = new OrderDetail(orderDetailId, new Date(), new Date(),
                     orderId, art.getId(), art.getNumberInCart(), actualPrice, true);
             orderDetailsRef.child(orderDetailId).setValue(orderDetail).addOnCompleteListener(task -> {
@@ -158,6 +165,15 @@ public class OrderPayment extends BaseActivity {
                     Log.d("OrderDetail", "OrderDetail placed successfully");
                 } else {
                     Log.d("OrderDetail", "Failed to place OrderDetail");
+                }
+            });
+            int updatedStock = art.getStockQuantity() - art.getNumberInCart();
+            art.setStockQuantity(updatedStock);
+            artsRef.child(art.getId()).setValue(art).addOnCompleteListener(stockUpdateTask -> {
+                if (stockUpdateTask.isSuccessful()) {
+                    Log.d("StockUpdate", "Stock updated successfully for art ID: " + art.getId());
+                } else {
+                    Log.d("StockUpdate", "Failed to update stock for art ID: " + art.getId());
                 }
             });
         }
