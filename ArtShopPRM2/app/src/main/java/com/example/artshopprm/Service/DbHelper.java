@@ -26,57 +26,54 @@ public class DbHelper {
     public DbHelper(Context appContext) {
         preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
     }
+    public ArrayList<Art> getListObject(String key){
+        Gson gson = new Gson();
 
-    /**
-     * Decodes the Bitmap from 'path' and returns it
-     * @param path image path
-     * @return the Bitmap from 'path'
-     */
-    public Bitmap getImage(String path) {
-        Bitmap bitmapFromPath = null;
-        try {
-            bitmapFromPath = BitmapFactory.decodeFile(path);
+        ArrayList<String> objStrings = getListString(key);
+        ArrayList<Art> playerList =  new ArrayList<Art>();
 
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
+        for(String jObjString : objStrings){
+            Art player  = gson.fromJson(jObjString,  Art.class);
+            playerList.add(player);
         }
-
-        return bitmapFromPath;
+        return playerList;
     }
 
-
-    /**
-     * Returns the String path of the last saved image
-     * @return string path of the last saved image
-     */
-    public String getSavedImagePath() {
-        return lastImagePath;
-    }
-
-
-    /**
-     * Saves 'theBitmap' into folder 'theFolder' with the name 'theImageName'
-     * @param theFolder the folder path dir you want to save it to e.g "DropBox/WorkImages"
-     * @param theImageName the name you want to assign to the image file e.g "MeAtLunch.png"
-     * @param theBitmap the image you want to save as a Bitmap
-     * @return returns the full path(file system address) of the saved image
-     */
-    public String putImage(String theFolder, String theImageName, Bitmap theBitmap) {
-        if (theFolder == null || theImageName == null || theBitmap == null)
-            return null;
-
-        this.DEFAULT_APP_IMAGEDATA_DIRECTORY = theFolder;
-        String mFullPath = setupFullPath(theImageName);
-
-        if (!mFullPath.equals("")) {
-            lastImagePath = mFullPath;
-            saveBitmap(mFullPath, theBitmap);
+    public void putListObject(String key, ArrayList<Art> playerList){
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        ArrayList<String> objStrings = new ArrayList<String>();
+        for(Art player: playerList){
+            objStrings.add(gson.toJson(player));
         }
-
-        return mFullPath;
+        putListString(key, objStrings);
     }
 
+    public void putUserData(String key, Account acc){
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(acc);
+        putString(key, jsonString);
+    }
+
+    public Account getAccountLogin(String key) {
+        Gson gson = new Gson();
+        String jsonString = getString(key);
+        return gson.fromJson(jsonString, Account.class);
+    }
+
+    public String getString(String key) {
+        return preferences.getString(key, "");
+    }
+
+    /**
+     * Get parsed ArrayList of String from SharedPreferences at 'key'
+     * @param key SharedPreferences key
+     * @return ArrayList of String
+     */
+    public ArrayList<String> getListString(String key) {
+        return new ArrayList<String>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
+    }
 
     /**
      * Saves 'theBitmap' into 'fullPath'
@@ -257,18 +254,7 @@ public class DbHelper {
      * @param key SharedPreferences key
      * @return String value at 'key' or "" (empty String) if key not found
      */
-    public String getString(String key) {
-        return preferences.getString(key, "");
-    }
 
-    /**
-     * Get parsed ArrayList of String from SharedPreferences at 'key'
-     * @param key SharedPreferences key
-     * @return ArrayList of String
-     */
-    public ArrayList<String> getListString(String key) {
-        return new ArrayList<String>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
-    }
 
     /**
      * Get boolean value from SharedPreferences at 'key'. If key not found, return false
@@ -299,25 +285,6 @@ public class DbHelper {
         return newList;
     }
 
-
-    public ArrayList<Art> getListObject(String key){
-        Gson gson = new Gson();
-
-        ArrayList<String> objStrings = getListString(key);
-        ArrayList<Art> playerList =  new ArrayList<Art>();
-
-        for(String jObjString : objStrings){
-            Art player  = gson.fromJson(jObjString,  Art.class);
-            playerList.add(player);
-        }
-        return playerList;
-    }
-
-    public Account getAccountLogin(String key) {
-        Gson gson = new Gson();
-        String jsonString = getString(key);
-        return gson.fromJson(jsonString, Account.class);
-    }
 
 
 
@@ -468,22 +435,7 @@ public class DbHelper {
         putString(key, gson.toJson(obj));
     }
 
-    public void putListObject(String key, ArrayList<Art> playerList){
-        checkForNullKey(key);
-        Gson gson = new Gson();
-        ArrayList<String> objStrings = new ArrayList<String>();
-        for(Art player: playerList){
-            objStrings.add(gson.toJson(player));
-        }
-        putListString(key, objStrings);
-    }
 
-    public void putUserData(String key, Account acc){
-        checkForNullKey(key);
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(acc);
-        putString(key, jsonString);
-    }
 
     /**
      * Remove SharedPreferences item with 'key'

@@ -61,12 +61,18 @@ public class DetailActivity extends BaseActivity {
                 num = num - 1;
                 binding.numTxt.setText(num + "");
                 binding.totalTxt.setText("$" + (num * art.getPrice()));
+            }else{
+                Toast.makeText(this, "Pick at least 1 item", Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.addBtn.setOnClickListener(v -> {
-            art.setNumberInCart(num);
-            managementCart.insertFood(art);
+            if(num >= art.getStockQuantity()){
+                Toast.makeText(this, "Out of stock", Toast.LENGTH_SHORT).show();
+            }else{
+                art.setNumberInCart(num);
+                managementCart.insertFood(art);
+            }
         });
     }
 

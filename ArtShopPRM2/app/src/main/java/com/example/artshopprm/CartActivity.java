@@ -109,48 +109,5 @@ public class CartActivity extends  BaseActivity {
         return totalPrice - deliveryFee;
     }
 
-//    private void actionOrder(){
-//        List<Art> arts = managementCart.getListCart();
-//        if (arts.isEmpty()) {
-//            Toast.makeText(this, "Cart is empty", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//
-//        String orderId = UUID.randomUUID().toString();
-//        Date now = new Date();
-//        Account acc = managementCart.getUserLogined("User");
-//        String address = binding.addressTxt.getText().toString();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-//        String currentTime = dateFormat.format(now);
-//        double total = getTotalOrderPrice();
-//        // Create an Order object
-//        Order order = new Order(orderId, currentTime, currentTime, address, String.valueOf(acc.getId()), "Pending", true,total);
-//        DatabaseReference ordersRef = db.getReference("orders");
-//        DatabaseReference orderDetailsRef = db.getReference("orderDetails");
-//
-//        // Save order to Firebase
-//        ordersRef.child(orderId).setValue(order).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                Toast.makeText(CartActivity.this, "Order placed successfully", Toast.LENGTH_SHORT).show();
-//                saveOrderDetails(orderId, arts);
-//            } else {
-//                Toast.makeText(CartActivity.this, "Failed to place order", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        managementCart.emptyListCart();
-//    }
-//
-//    private void saveOrderDetails(String orderId, List<Art> arts) {
-//        DatabaseReference orderDetailsRef = db.getReference("orderDetails");
-//        for (Art art : arts) {
-//            String orderDetailId = UUID.randomUUID().toString();
-//            double actualPrice = art.getNumberInCart() * art.getPrice();
-//            OrderDetail orderDetail = new OrderDetail(orderDetailId, new Date(), new Date(),
-//                    orderId, art.getId(), art.getNumberInCart(), actualPrice, true);
-//            orderDetailsRef.child(orderDetailId).setValue(orderDetail);
-//        }
-//    }
-
 
 }
