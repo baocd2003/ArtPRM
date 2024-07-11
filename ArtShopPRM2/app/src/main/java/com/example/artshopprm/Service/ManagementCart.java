@@ -64,16 +64,16 @@ public class ManagementCart {
         if(listItem.get(position).getNumberInCart()==1){
             listItem.remove(position);
         }else{
-            listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart()-1);
+            listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart());
         }
         dbHelper.putListObject("CartList",listItem);
         changeNumberItemsListener.change();
     }
-    public  void plusNumberItem(ArrayList<Art> listItem,int position,ChangeNumberItemsListener changeNumberItemsListener){
+    public void plusNumberItem(ArrayList<Art> listItem,int position,ChangeNumberItemsListener changeNumberItemsListener){
         if(listItem.get(position).getNumberInCart() > listItem.get(position).getStockQuantity()){
             Toast.makeText(context, "Out of quantity", Toast.LENGTH_SHORT).show();
         }else{
-            listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart()+1);
+            listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart());
             dbHelper.putListObject("CartList",listItem);
             changeNumberItemsListener.change();
         }

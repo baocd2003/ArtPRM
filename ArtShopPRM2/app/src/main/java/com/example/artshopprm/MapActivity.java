@@ -139,7 +139,7 @@ public class MapActivity extends AppCompatActivity  implements OnMapReadyCallbac
         googleMap.addMarker(new MarkerOptions()
                 .position(storeLocation)
                 .title("ArtShop")
-                .snippet("bakasa"));
+                .snippet("Store 1"));
 
         googleMap.addMarker(new MarkerOptions()
                 .position(storeLocation1)
