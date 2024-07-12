@@ -88,14 +88,23 @@ public class CartActivity extends  BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         binding.cardView.setLayoutManager(linearLayoutManager);
         binding.deliveryTxt.setText(String.valueOf(deliveryFee));
-        binding.totalFeeTxt.setText(String.valueOf(getTotalOrderPrice() + deliveryFee));
+        binding.totalFeeTxt.setText(String.valueOf(getTotalOrderPrice() - deliveryFee));
+        binding.totalTxt.setText(String.valueOf(getTotalOrderPrice()));
         adapter = new CartAdapter(managementCart.getListCart(), this, () -> calculateCart());
         binding.cardView.setAdapter(adapter);
     }
 
     private void calculateCart() {
         double total = getTotalOrderPrice();
+        binding.totalFeeTxt.setText(String.valueOf(getTotalOrderPrice() - deliveryFee));
         binding.totalTxt.setText("$" + total);
+        if (managementCart.getListCart().isEmpty()) {
+            binding.emptyTxt.setVisibility(View.VISIBLE);
+            binding.scrollviewCart.setVisibility(View.GONE);
+        } else {
+            binding.emptyTxt.setVisibility(View.GONE);
+            binding.scrollviewCart.setVisibility(View.VISIBLE);
+        }
     }
 
     public double getTotalOrderPrice(){
@@ -106,7 +115,7 @@ public class CartActivity extends  BaseActivity {
             double actualPrice = art.getNumberInCart() * art.getPrice();
             totalPrice+=actualPrice;
         }
-        return totalPrice - deliveryFee;
+        return totalPrice + deliveryFee;
     }
 
 

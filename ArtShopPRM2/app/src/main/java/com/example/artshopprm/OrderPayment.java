@@ -9,11 +9,15 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.artshopprm.Adapter.CheckoutAdapter;
 import com.example.artshopprm.Api.CreateOrder;
 import com.example.artshopprm.Entity.Account;
 import com.example.artshopprm.Entity.Art;
@@ -21,6 +25,7 @@ import com.example.artshopprm.Entity.Order;
 import com.example.artshopprm.Entity.OrderDetail;
 import com.example.artshopprm.Service.ManagementCart;
 import com.example.artshopprm.databinding.ActivityCartBinding;
+import com.example.artshopprm.databinding.ActivityOrderPaymentBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,22 +48,28 @@ import vn.zalopay.sdk.listeners.PayOrderListener;
 public class OrderPayment extends BaseActivity {
     TextView txtSoluong, txtTongTien, txtAddress;
     Button btnThanhToan;
-    private ActivityCartBinding binding;
+    private ActivityOrderPaymentBinding binding;
     private ManagementCart managementCart;
     private FirebaseDatabase db;
+
+    private CheckoutAdapter checkoutAdapter;
+
+    private RecyclerView cartView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order_payment);
-        txtSoluong = findViewById(R.id.textViewSoluong);
+        binding = ActivityOrderPaymentBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         txtTongTien = findViewById(R.id.textViewTongTien);
         btnThanhToan = findViewById(R.id.buttonThanhToan);
         txtAddress = findViewById(R.id.txtAddress);
         managementCart = new ManagementCart(this);
         db = FirebaseDatabase.getInstance();
-
+        checkoutAdapter = new CheckoutAdapter(managementCart.getListCart(),this);
+        cartView = findViewById(R.id.cartView);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -70,6 +81,7 @@ public class OrderPayment extends BaseActivity {
         String totalString = String.format("%.0f", total);
         txtTongTien.setText(Double.toString(total));
         txtAddress.setText(intent.getStringExtra("address"));
+        displayCart();
         btnThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +127,12 @@ public class OrderPayment extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
+    }
+
+    private void displayCart(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        cartView.setLayoutManager(linearLayoutManager);
+        cartView.setAdapter(checkoutAdapter);
     }
 
     private void actionOrder() {

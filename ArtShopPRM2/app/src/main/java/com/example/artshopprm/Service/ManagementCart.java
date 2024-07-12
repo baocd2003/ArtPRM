@@ -61,7 +61,7 @@ public class ManagementCart {
         return fee;
     }
     public void minusNumberItem(ArrayList<Art> listItem,int position,ChangeNumberItemsListener changeNumberItemsListener){
-        if(listItem.get(position).getNumberInCart()==1){
+        if(listItem.get(position).getNumberInCart()==0){
             listItem.remove(position);
         }else{
             listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart());
