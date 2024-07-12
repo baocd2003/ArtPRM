@@ -16,15 +16,21 @@
         android:theme="@style/Theme.MyChat"
         tools:targetApi="31">
         <activity
+            android:name=".ListOrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OrderDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".PaymentNotification"
             android:exported="true"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".OrderPayment"
             android:exported="true"
-            android:theme="@style/Theme.MyChat.NoActionBar"
             android:launchMode="singleTask"
-            android:parentActivityName=".CartActivity">
+            android:parentActivityName=".CartActivity"
+            android:theme="@style/Theme.MyChat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -38,29 +44,28 @@
         </activity>
         <activity
             android:name=".ZaloPayment"
-           android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".SearchResultActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
         <activity
             android:name=".MapActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ChatActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ListUserActivity"
             android:exported="true" />
         <activity
             android:name=".CartActivity"
             android:exported="true"
-            android:theme="@style/Theme.MyChat.NoActionBar"/>
+            android:theme="@style/Theme.MyChat.NoActionBar" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,8 +77,8 @@
             android:exported="true" />
         <activity
             android:name=".DetailActivity"
-            android:theme="@style/Theme.MyChat.NoActionBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.MyChat.NoActionBar" />
         <activity
             android:name=".BaseActivity"
             android:exported="true" />

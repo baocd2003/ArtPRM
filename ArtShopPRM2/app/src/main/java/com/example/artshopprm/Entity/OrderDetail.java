@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class OrderDetail {
     private String id;
-    private Date createdDate;
-    private Date updateDate;
+    private String createdDate;
+    private String updateDate;
     private String orderId;
     private String artId;
     private int quantity;
@@ -15,7 +15,7 @@ public class OrderDetail {
     public OrderDetail(){
 
     }
-    public OrderDetail(String id, Date createdDate, Date updateDate, String orderId, String artId, int quantity, double actualPrice, boolean isActive) {
+    public OrderDetail(String id, String createdDate, String updateDate, String orderId, String artId, int quantity, double actualPrice, boolean isActive) {
         this.id = id;
         this.createdDate = createdDate;
         this.updateDate = updateDate;
@@ -34,19 +34,19 @@ public class OrderDetail {
         this.id = id;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getUpdateDate() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
     }
 
