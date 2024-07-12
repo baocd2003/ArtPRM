@@ -9,5 +9,11 @@
     <color name="teal_700">#1679AB</color>
     <!-- Secondary brand colors -->
     <color name="teal_200">#80CBC4</color>
+<<<<<<< Updated upstream
     <color name="pink">#FFB1B1</color>
+=======
+    <color name="background_color">#FFFFFF</color>
+    <color name="primary_text">#000000</color>
+    <color name="secondary_text">#757575</color>
+>>>>>>> Stashed changes
 </resources>

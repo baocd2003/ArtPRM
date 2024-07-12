@@ -100,11 +100,46 @@ public class CartActivity extends  BaseActivity {
 
     public double getTotalOrderPrice(){
         List<Art> arts = managementCart.getListCart();
+<<<<<<< Updated upstream
         double totalPrice = 0;
         for (Art art : arts) {
             String orderDetailId = UUID.randomUUID().toString();
             double actualPrice = art.getNumberInCart() * art.getPrice();
             totalPrice+=actualPrice;
+=======
+        if (arts.isEmpty()) {
+            Toast.makeText(this, "Cart is empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String orderId = UUID.randomUUID().toString();
+        Date now = new Date();
+        String address = binding.addressTxt.getText().toString();
+        // Create an Order object
+        Order order = new Order(orderId, now.toString(), now.toString(), "BankName", "BankAccount", address, "AccountId", "Pending", true);
+        DatabaseReference ordersRef = db.getReference("orders");
+        DatabaseReference orderDetailsRef = db.getReference("orderDetails");
+
+        // Save order to Firebase
+        ordersRef.child(orderId).setValue(order).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(CartActivity.this, "Order placed successfully", Toast.LENGTH_SHORT).show();
+                saveOrderDetails(orderId, arts);
+            } else {
+                Toast.makeText(CartActivity.this, "Failed to place order", Toast.LENGTH_SHORT).show();
+            }
+        });
+        managementCart.emptyListCart();
+    }
+
+    private void saveOrderDetails(String orderId, List<Art> arts) {
+        DatabaseReference orderDetailsRef = db.getReference("orderDetails");
+        for (Art art : arts) {
+            String orderDetailId = UUID.randomUUID().toString();
+            double actualPrice = art.getNumberInCart() * art.getPrice();
+            OrderDetail orderDetail = new OrderDetail(orderDetailId, (new Date()).toString(), (new Date()).toString(),
+                    orderId, art.getId(), art.getNumberInCart(), actualPrice, true);
+            orderDetailsRef.child(orderDetailId).setValue(orderDetail);
+>>>>>>> Stashed changes
         }
         return totalPrice - deliveryFee;
     }

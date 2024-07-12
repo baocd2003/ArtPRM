@@ -6,7 +6,12 @@ public class Order {
     private String id;
     private String createdDate;
     private String updateDate;
+<<<<<<< Updated upstream
 
+=======
+    private String bankName;
+    private String bankAccount;
+>>>>>>> Stashed changes
     private String deliveryAddress;
     private String accountId;
     private String status;
@@ -17,6 +22,7 @@ public class Order {
     public Order() {
 
     }
+<<<<<<< Updated upstream
 
     public double getTotalPrice() {
         return totalPrice;
@@ -27,6 +33,9 @@ public class Order {
     }
 
     public Order(String id, String createdDate, String updateDate, String deliveryAddress, String accountId, String status, boolean isActive, double totalPrice) {
+=======
+    public Order(String id, String createdDate, String updateDate, String bankName, String bankAccount, String deliveryAddress, String accountId, String status, boolean isActive) {
+>>>>>>> Stashed changes
         this.id = id;
         this.createdDate = createdDate;
         this.updateDate = updateDate;

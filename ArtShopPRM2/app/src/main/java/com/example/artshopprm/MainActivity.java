@@ -178,6 +178,10 @@ public class MainActivity extends BaseActivity {
     private void mainAction(){
         binding.imageViewCart.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
         binding.imageViewChat.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ListUserActivity.class)));
+<<<<<<< Updated upstream
         binding.imageViewLocation.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapActivity.class)));
+=======
+        binding.imageViewAccount.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ListOrderActivity.class)));
+>>>>>>> Stashed changes
     }
 }

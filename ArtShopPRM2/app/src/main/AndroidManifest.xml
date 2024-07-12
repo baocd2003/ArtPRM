@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+<<<<<<< Updated upstream
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+=======
+>>>>>>> Stashed changes
 
     <application
         android:allowBackup="true"
@@ -16,6 +19,7 @@
         android:theme="@style/Theme.MyChat"
         tools:targetApi="31">
         <activity
+<<<<<<< Updated upstream
             android:name=".PaymentNotification"
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
@@ -47,6 +51,16 @@
             android:name=".MapActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
+=======
+            android:name=".OrderDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ListOrderActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MapActivity"
+            android:exported="true" />
+>>>>>>> Stashed changes
         <activity
             android:name=".ChatActivity"
             android:exported="true"
@@ -60,7 +74,11 @@
             android:theme="@style/Theme.MyChat.NoActionBar"/>
         <activity
             android:name=".LoginActivity"
+<<<<<<< Updated upstream
             android:exported="true" >
+=======
+            android:exported="true">
+>>>>>>> Stashed changes
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -79,14 +97,15 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true"></activity>
 
+<<<<<<< Updated upstream
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+=======
+>>>>>>> Stashed changes
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyADsjFXMaM6MxxrEiM4h3EP6o-f1OPqJOc" />
