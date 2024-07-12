@@ -175,8 +175,10 @@ public class OrderPayment extends BaseActivity {
         for (Art art : arts) {
             String orderDetailId = UUID.randomUUID().toString();
             double actualPrice = art.getNumberInCart() * art.getPrice();
-
-            OrderDetail orderDetail = new OrderDetail(orderDetailId, new Date(), new Date(),
+            Date now = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            String currentTime = dateFormat.format(now);
+            OrderDetail orderDetail = new OrderDetail(orderDetailId, currentTime, currentTime,
                     orderId, art.getId(), art.getNumberInCart(), actualPrice, true);
             orderDetailsRef.child(orderDetailId).setValue(orderDetail).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {

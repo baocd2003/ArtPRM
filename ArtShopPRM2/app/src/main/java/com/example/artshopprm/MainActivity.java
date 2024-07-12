@@ -179,5 +179,6 @@ public class MainActivity extends BaseActivity {
         binding.imageViewCart.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
         binding.imageViewChat.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ListUserActivity.class)));
         binding.imageViewLocation.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapActivity.class)));
+        binding.imageViewAccount.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ListOrderActivity.class)));
     }
 }

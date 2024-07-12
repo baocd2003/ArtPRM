@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/order_item_background"
+    android:layout_margin="8dp"
+    android:elevation="4dp">
+
+    <TextView
+        android:id="@+id/sequenceNumberTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/primary_text"
+        android:text="Order #"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/orderStatusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status: "
+        android:textColor="@color/secondary_text"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/deliveryAddressTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delivery Address: "
+        android:textColor="@color/secondary_text"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/createdDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Created Date: "
+        android:textColor="@color/secondary_text"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/updateDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Date: "
+        android:textColor="@color/secondary_text"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:id="@+id/accountIdTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Account ID: "
+        android:textColor="@color/secondary_text" />
+
+    <!-- Add more TextViews for other fields as needed -->
+
+</LinearLayout>
