@@ -1,6 +1,7 @@
 package com.example.artshopprm.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.artshopprm.CartActivity;
 import com.example.artshopprm.Entity.Art;
+import com.example.artshopprm.MainActivity;
 import com.example.artshopprm.R;
 import com.example.artshopprm.Service.ChangeNumberItemsListener;
 import com.example.artshopprm.Service.ManagementCart;
@@ -23,11 +26,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
     ArrayList<Art> list;
     private ManagementCart managementCart;
     ChangeNumberItemsListener changeNumberItemsListener;
+    Context context;
 
     public CartAdapter(ArrayList<Art> list, Context context, ChangeNumberItemsListener changeNumberItemsListener) {
         this.list = list;
         managementCart = new ManagementCart(context);
         this.changeNumberItemsListener = changeNumberItemsListener;
+        context = context;
     }
 
     @NonNull
@@ -65,7 +70,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
 
         holder.minusItem.setOnClickListener(v -> {
             int num = list.get(position).getNumberInCart();
-            if (num > 1) {
+            if (num >= 1) {
                 num--;
                 list.get(position).setNumberInCart(num);
                 holder.num.setText(String.valueOf(num));
@@ -75,8 +80,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
                     notifyDataSetChanged();
                     changeNumberItemsListener.change();
                 });
+
             }
+
         });
+
     }
 
     @Override
